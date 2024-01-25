@@ -101,15 +101,15 @@
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         var reservedDates = [
-            { start: '2024-01-20', end: '2024-01-25' },
+            { start: '2024-01-26', end: '2024-01-26' },
             // Add more reservations as needed
         ];
 
         flatpickr("#start_date", {
             dateFormat: 'Y-m-d',
-            disable: reservedDates.map(date => [date.end]),
+            disable: reservedDates.map(date => ({ from: date.start, to: date.end })),
             onClose: function(selectedDates, dateStr, instance) {
-                // Update the end_date minimum date when start_date is selected
+
                 if (instance.input.id === 'start_date') {
                     var endDatePicker = flatpickr("#end_date");
                     endDatePicker.set('minDate', selectedDates[0]);
