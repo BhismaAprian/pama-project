@@ -18,8 +18,6 @@ class ReservationController extends Controller
     {
 
         $data['room'] = Room::with('roomAttributes', 'roomReservation')->get();
-
-        // dd($data);
         $data['attributes'] = room_attributes::with('attributes')->get();
         return view('pages.reservation.index', $data);
     }
@@ -53,11 +51,9 @@ class ReservationController extends Controller
     public function edit(string $id)
     {
         $today = \Carbon\Carbon::now();
-        // $disable = RoomReservation::where('reservation_start', '>=', )
         $room = Room::findOrfail($id);
-        // ->leftjoin('room_reservations', 'room_id', '=', 'room_reservations.room_id');
-        // $room = $rooms->get();
-        // $avail = $rooms->selectRaw('room_reservations.reservation_start, room_reservations.reservation_end')->get();
+        $room->load('roomReservation');
+
 
         $history = RoomReservation::with('room', 'user')->latest('created_at')->limit(2)->get();
 

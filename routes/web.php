@@ -6,6 +6,7 @@ use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\RoomControllers;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,6 +29,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/rooms', RoomControllers::class);
     Route::resource('/attributes', AttributeControllers::class);
     Route::delete('/history/{history}', [HistoryController::class, 'destroy'])->name('history.destroy');
+    Route::resource('/user', UserController::class);
+
 });
 Route::get('/history', [HistoryController::class, 'index'])->name('history.index');
 

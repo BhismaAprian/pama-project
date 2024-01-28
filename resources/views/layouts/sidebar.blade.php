@@ -22,6 +22,12 @@
                                 <span class="nav-text">Attribut Management</span>
                             </a>
                         </li>
+
+                        <li><a href="{{ route('user.index') }}" class="ai-icon" aria-expanded="false">
+                            <i class="flaticon-381-settings-2"></i>
+                            <span class="nav-text">Admin Management</span>
+                        </a>
+                    </li>
                     @endauth
 
 
@@ -39,7 +45,6 @@
                 </ul>
                 <div class="copyright">
                     <p><strong>Pama Admin Dashboard</strong> © 2024 All Rights Reserved</p>
-                    <p class="fs-12">Made with <span class="heart"></span> by DexignZone</p>
                 </div>
             </div>
         </div>

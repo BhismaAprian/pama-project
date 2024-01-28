@@ -28,7 +28,6 @@ class RoomControllers extends Controller
 
 
         $data['roomTersedia'] = $avail->count();
-        // $data['tidakTersedia'] = $tidaktersedia->count();
         return view('pages.room.index', $data);
     }
 

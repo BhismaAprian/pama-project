@@ -74,7 +74,7 @@
             Nav header start
         ***********************************-->
         <div class="nav-header">
-            <a href="index.html" class="brand-logo">
+            <a href="{{route('home')}}" class="brand-logo">
                 <img width="50" height="50"
                     src="https://jektvnews.disway.id/upload/caf20b7dd2137cf9ab9ce4a272dc5fae.png" alt="Icon"
                     fill="white">
