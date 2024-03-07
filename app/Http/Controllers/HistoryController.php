@@ -9,7 +9,7 @@ class HistoryController extends Controller
 {
     public function index()
     {
-        $data['history'] = RoomReservation::with('room','user')->latest()->get();
+        $data['history'] = RoomReservation::with('room','user','reservationAttributes')->latest()->get();
         return view('pages.history.index',$data);
     }
 

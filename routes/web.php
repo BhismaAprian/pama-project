@@ -26,13 +26,12 @@ Route::get('/login', function () {
     return view('pages.login');
 });
 Route::middleware(['auth'])->group(function () {
-    Route::resource('/rooms', RoomControllers::class);
-    Route::resource('/attributes', AttributeControllers::class);
+
     Route::delete('/history/{history}', [HistoryController::class, 'destroy'])->name('history.destroy');
     Route::resource('/user', UserController::class);
-
 });
 Route::get('/history', [HistoryController::class, 'index'])->name('history.index');
+
 
 // Route::resource('/rooms', RoomControllers::class);
 // Route::resource('/attributes', AttributeControllers::class);
@@ -43,9 +42,9 @@ Route::get('/history', [HistoryController::class, 'index'])->name('history.index
 
 Route::resource('/reservation', ReservationController::class);
 
-
+Route::resource('/rooms', RoomControllers::class);
+Route::resource('/attributes', AttributeControllers::class);
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-

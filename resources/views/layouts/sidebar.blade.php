@@ -9,7 +9,6 @@
                         <span class="nav-text">Dashboard</span>
                     </a>
                 </li>
-                    @auth
                     <li class="nav-label">Managemen</li>
                     
                         <li><a href="{{ route('rooms.index') }}" class="ai-icon" aria-expanded="false">
@@ -22,6 +21,7 @@
                                 <span class="nav-text">Attribut Management</span>
                             </a>
                         </li>
+                        @auth
 
                         <li><a href="{{ route('user.index') }}" class="ai-icon" aria-expanded="false">
                             <i class="flaticon-381-settings-2"></i>

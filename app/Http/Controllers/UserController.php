@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -12,7 +13,11 @@ class UserController extends Controller
      */
     public function index()
     {
-        $data['user'] = User::all();
+        if (Auth::check() && Auth::user()->role == 'admin') {
+            $data['user'] = User::where('role', 'admin')->get();
+        } else {
+            $data['user'] = User::where('role', 'admin')->get();
+        }
         return view('pages.user.index', $data);
     }
 

@@ -20,6 +20,8 @@ class DashboardController extends Controller
         $data['selesai'] = $kadaluarsa->count();
         $data['totalroom'] = $total->count();
         $data['pinjaman'] = $pinjaman->count();
+        $data['history'] = RoomReservation::with('room','user')->latest()->get();
+
         return view('pages.home', $data);
     }
 

@@ -15,4 +15,10 @@ class attribute extends Model
     {
         return $this->hasmany(room_attributes::class);
     }
+
+
+    public function reservationAttributes()
+    {
+        return $this->hasMany(reservationAttributes::class);
+    }
 }

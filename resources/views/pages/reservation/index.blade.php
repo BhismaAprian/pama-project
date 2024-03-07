@@ -7,7 +7,7 @@
         <script>
             document.addEventListener('DOMContentLoaded', function() {
                 Swal.fire({
-                    title: 'Sweet Success!',
+                    title: 'Ruangan Berhasil Dipinjam',
                     text: "{{ session('sweet-success') }}",
                     icon: 'success',
                     confirmButtonColor: '#28a745',
@@ -21,10 +21,10 @@
 
                 $reservation = DB::table('room_reservations')
                     ->where('room_id', $rooms->id)
-                    ->first();
-                // Assuming you want to check the first reservation
-                $today = \Carbon\Carbon::now()->format('Y-m-d');
+                    ->get();
 
+                // Assuming you want to check the first reservation
+                $today = \Carbon\Carbon::now()->timezone('asia/makassar');
             @endphp
             <div class="col-xl-3">
                 <div class="card border-0 mb-3">
@@ -50,29 +50,35 @@
                                     @php
                                         $isAvailable = true;
                                         foreach ($rooms->roomReservation as $reservation) {
-                                            if ($reservation->reservation_start <= $today && $reservation->reservation_end >= $today) {
-                                                $isAvailable = false;
+                                            
+                                            if ($reservation->reservation_start <= $today && $reservation->reservation_end >= $today ) {
                                                 break;
-                                            }
+                                                $isAvailable = false;
+
+                                            } 
                                         }
                                     @endphp
 
-                                    @if ($isAvailable)
-                                        <span class="badge badge-success light">TERSEDIA HARI INI</span>
+                                    @if ($isAvailable == true)
+                                        <span class="badge badge-success light"></span>
                                     @else
-                                        <span class="badge badge-warning light">TIDAK TERSEDIA HARI INI</span>
+                                        <span class="badge badge-warning light"></span>
                                     @endif
                                 @else
-                                    <span class="badge badge-success light">TERSEDIA HARI INI</span>
+                                    <span class="badge badge-success light"></span>
                                 @endif
                             </div>
                         </div>
                         <div class="card-text d-flex flex-row mt-1">
-                            @if ($reservation && $reservation->reservation_start && $reservation->reservation_end)
+                            {{-- @if ($reservation && $reservation->reservation_start && $reservation->reservation_end)
                                 @if ($reservation->reservation_start <= $today && $reservation->reservation_end >= $today)
                                     <a type="button" href="{{ route('reservation.edit', $rooms->id) }}"
                                         class="btn btn-warning p-2 mt-2 float-center">Pinjam
                                         Nanti</a>
+                                @elseif ($reservation->reservation_start == $today && $reservation->reservation_end == $today)
+                                <a type="button" href="{{ route('reservation.edit', $rooms->id) }}"
+                                    class="btn btn-warning p-2 mt-2 float-center">Pinjam
+                                    Nanti</a>
                                 @else
                                     <a type="button" href="{{ route('reservation.edit', $rooms->id) }}"
                                         class="btn btn-primary p-2 mt-2 float-center">Pinjam Sekarang</a>
@@ -80,7 +86,25 @@
                             @else
                                 <a type="button" href="{{ route('reservation.edit', $rooms->id) }}"
                                     class="btn btn-primary p-2 mt-2 float-center ">Pinjam Sekarang</a>
+                            @endif --}}
+                            @if ($reservation && $reservation->reservation_start && $reservation->reservation_end)
+                                @php
+                                    $start = date('Y-m-d', strtotime($reservation->reservation_start));
+                                    $end = date('Y-m-d', strtotime($reservation->reservation_end));
+                                    $todayDate = date('Y-m-d', strtotime($today));
+                                @endphp
+                                @if ($start <= $todayDate && $end >= $todayDate)
+                                    <a type="button" href="{{ route('reservation.edit', $rooms->id) }}"
+                                        class="btn btn-warning p-2 mt-2 float-center">Pinjam Nanti</a>
+                                @elseif ($start == $todayDate && $end == $todayDate)
+                                    <a type="button" href="{{ route('reservation.edit', $rooms->id) }}"
+                                        class="btn btn-warning p-2 mt-2 float-center">Pinjam Hari Ini</a>
+                                @else
+                                    <a type="button" href="{{ route('reservation.edit', $rooms->id) }}"
+                                        class="btn btn-primary p-2 mt-2 float-center">Pinjam Hari Ini</a>
+                                @endif
                             @endif
+
                         </div>
                     </div>
                     <div class="card-footer">

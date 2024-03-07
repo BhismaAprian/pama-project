@@ -3,7 +3,7 @@
 
 @section('content')
 @php
-    $today =                 $today = now()->format('Y-m-d');
+                $today = \Carbon\Carbon::now()->timezone('asia/makassar');
 
 @endphp
     <div class="col-12">

@@ -40,6 +40,24 @@
 
                             </div>
                             <div class="col-xl-6 col-xxl-12 col-md-12 mb-3">
+                                <label>Barang Pinjaman</label>
+
+                                <select multiple="" id="objekSelect[]" class="form-control default-select" name="objekSelect[]"
+                                    onchange="createQtyForms()">
+                                    <option value="">Pilih Salahsatu atau Lebih Barang Yang akan dipinjam</option>
+                                    @foreach ($barangSedia as $barang)
+                                        <option value="{{ $barang->id }}" id="{{$barang->name}}" class="{{$barang->qty_sedia}}">{{ $barang->name }}</option>
+                                    @endforeach
+                                    {{-- <option value="objek1">Objek 1</option>
+                                    <option value="objek2">Objek 2</option>
+                                    <option value="objek3">Objek 3</option> --}}
+                                </select>
+                            </div>
+                            {{-- <input type="number" name="quantity" id="quantity" oninput="this.value = Math.max(1, Math.min(5, this.value))"> --}}
+                            <div class="col-xl-3 col-xxl-6 col-md-6 mb-3">
+                                <div id="qtyFormsContainer"></div>
+                            </div>
+                            <div class="col-xl-6 col-xxl-12 col-md-12 mb-3">
                                 <label>Catatan</label>
                                 <textarea class="form-control" name="description" rows="4" id="comment"></textarea>
                             </div>
@@ -101,7 +119,6 @@
 @push('add-script')
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>
-       
         document.addEventListener('DOMContentLoaded', function() {
             var reservedDates = [
                 @foreach ($room->roomReservation as $reservation)
@@ -137,5 +154,45 @@
                 }
             });
         });
+
+        // function createQtyForms() {
+        //     var selectValues = Array.from(document.getElementById("objekSelect").selectedOptions).map(option => option
+        //         .value);
+        //     var qtyFormsContainer = document.getElementById("qtyFormsContainer");
+        //     qtyFormsContainer.innerHTML = ""; // Clear existing forms
+
+        //     selectValues.forEach(function(selectValue) {
+        //         var objekCount = parseInt(selectValue.match(/\d+/)[0]); // Extract number from objek value
+        //         var formGroup, i;
+        //         formGroup = document.createElement("div");
+        //         formGroup.classList.add("form-group");
+        //         formGroup.innerHTML = `
+        //         <label for="qty${selectValue}">Tentukan Jumlah Pinjaman ${selectValue}:</label>
+        //         <input class="form-control" type="number" id="qty${selectValue}" name="qty${selectValue}" required>
+        //     `;
+        //         qtyFormsContainer.appendChild(formGroup);
+        //     });
+        // }
+        function createQtyForms() {
+    var selectOptions = Array.from(document.getElementById("objekSelect[]").selectedOptions);
+    var qtyFormsContainer = document.getElementById("qtyFormsContainer");
+    qtyFormsContainer.innerHTML = ""; // Clear existing forms
+
+    selectOptions.forEach(function(option) {
+        
+        var selectValue = option.value;
+         // Ambil nilai dari atribut value
+        var objekId = option.id;
+        var objekClass = option.getAttribute("class");
+        var objekCount = parseInt(selectValue.match(/\d+/)[0]); // Extract number from objek value
+        var formGroup = document.createElement("div");
+        formGroup.classList.add("form-group");
+        formGroup.innerHTML = `
+            <label for="qty${objekId}">Tentukan Jumlah Pinjaman ${objekId}:</label>
+            <input class="form-control" type="number" id="qty${objekId}" name="qty" placeholder="Hanya ${objekClass} barang yang tersedia" oninput="this.value = Math.max(1, Math.min(${objekClass}, this.value))" required>
+        `;
+        qtyFormsContainer.appendChild(formGroup);
+    });
+}
     </script>
 @endpush
